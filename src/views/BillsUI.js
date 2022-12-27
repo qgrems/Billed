@@ -1,7 +1,7 @@
 import VerticalLayout from './VerticalLayout.js'
 import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
-
+import { formatDate, formatStatus } from "../app/format.js"
 import Actions from './Actions.js'
 
 const row = (bill) => {
@@ -9,7 +9,7 @@ const row = (bill) => {
     <tr>
       <td>${bill.type}</td>
       <td>${bill.name}</td>
-      <td>${bill.date}</td>
+      <td>${formatDate(bill.date)}</td>
       <td>${bill.amount} €</td>
       <td>${bill.status}</td>
       <td>
@@ -24,7 +24,35 @@ const rows = (data) => {
 }
 
 export default ({ data: bills, loading, error }) => {
-  
+  if(bills)
+  {
+    for (let i in bills)
+    {
+      bills[i].date= new Date(parseInt(bills[i].date.substr(0,4)),parseInt(bills[i].date.substr(5,2))-1,parseInt(bills[i].date.substr(8,2)))
+      console.log(bills[i].date)
+    }
+    // bills= bills.map(bill=>{
+      
+    //   bill.date=new Date(parseInt(bill.date.substr(0,4)),parseInt(bill.date.substr(5,2))-1,parseInt(bill.date.substr(8,2)))
+     
+    //   console.log(parseInt(bill.date.substr(0,4)),parseInt(bill.date.substr(5,2))-1,parseInt(bill.date.substr(8,2)))
+      
+    //   return bill
+    // })
+    bills.sort((a,b)=> {
+      if(a.date==null)
+      {
+        return (1)
+      }
+      if(b.date==null)
+      {
+        return(-1)
+      }
+      return(b.date -a.date)
+      
+    } )
+  }
+ 
   const modal = () => (`
     <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -69,7 +97,7 @@ export default ({ data: bills, loading, error }) => {
               </tr>
           </thead>
           <tbody data-testid="tbody">
-            ${rows(bills)}
+          ${rows(bills)}
           </tbody>
           </table>
         </div>

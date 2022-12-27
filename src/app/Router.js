@@ -12,7 +12,6 @@ import { ROUTES, ROUTES_PATH } from "../constants/routes.js"
 export default () => {
   const rootDiv = document.getElementById('root')
   rootDiv.innerHTML = ROUTES({ pathname: window.location.pathname })
-
   window.onNavigate = (pathname) => {
 
     window.history.pushState(
@@ -43,7 +42,7 @@ export default () => {
       })
     } else if (pathname === ROUTES_PATH['NewBill']) {
       rootDiv.innerHTML = ROUTES({ pathname, loading: true })
-      new NewBill({ document, onNavigate, store, localStorage })
+      new NewBill({ document, onNavigate, store, localStorage, valid:false})
       const divIcon1 = document.getElementById('layout-icon1')
       const divIcon2 = document.getElementById('layout-icon2')
       divIcon1.classList.remove('active-icon')
@@ -81,7 +80,7 @@ export default () => {
       const divIcon2 = document.getElementById('layout-icon2')
       divIcon1.classList.add('active-icon')
       divIcon2.classList.remove('active-icon')
-      const bills = new Bills({ document, onNavigate, store, localStorage  })
+      const bills = new Bills({ document, onNavigate, store, localStorage})
       bills.getBills().then(data => {
         rootDiv.innerHTML = BillsUI({ data })
         const divIcon1 = document.getElementById('layout-icon1')
@@ -94,7 +93,7 @@ export default () => {
       })
     } else if (window.location.hash === ROUTES_PATH['NewBill']) {
       rootDiv.innerHTML = ROUTES({ pathname: window.location.hash, loading: true })
-      new NewBill({ document, onNavigate, store, localStorage })
+      new NewBill({ document, onNavigate, store, localStorage, valid:false })
       const divIcon1 = document.getElementById('layout-icon1')
       const divIcon2 = document.getElementById('layout-icon2')
       divIcon1.classList.remove('active-icon')
