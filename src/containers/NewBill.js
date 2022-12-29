@@ -21,6 +21,7 @@ export default class NewBill {
   handleChangeFile = e => {
     e.preventDefault()
     const file = this.document.querySelector(`input[data-testid="file"]`).files[0]
+    console.log(file)
     const filePath = e.target.value.split(/\\/g)
     const fileName = filePath[filePath.length-1]
     var allowedExtension = ['jpeg', 'jpg', 'png'];
@@ -63,7 +64,7 @@ export default class NewBill {
     
     if(this.isValid === true)
     {
-      console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
+     // console.log('e.target.querySelector(`input[data-testid="datepicker"]`).value', e.target.querySelector(`input[data-testid="datepicker"]`).value)
       const email = JSON.parse(localStorage.getItem("user")).email
       const bill = {
         email,
@@ -101,5 +102,4 @@ export default class NewBill {
       }
     }
   }
-
 }
