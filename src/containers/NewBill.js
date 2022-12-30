@@ -36,13 +36,15 @@ export default class NewBill {
       }
      
     }
-    if(this.isValid === true){
+   
       const formData = new FormData()
+      console.log(formData)
       const email = JSON.parse(localStorage.getItem("user")).email
       console.log("file:", file, "filePath:", filePath, "fileName:", fileName)
-        
+      
         formData.append('file', file)
         formData.append('email', email)
+        if(this.isValid === true){
         this.store
         .bills()
         .create({
@@ -58,6 +60,7 @@ export default class NewBill {
           this.fileName = fileName
         }).catch(error => console.error(error))
       }
+      
   }
   handleSubmit = e => {
     e.preventDefault()

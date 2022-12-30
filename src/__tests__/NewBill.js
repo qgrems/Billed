@@ -12,6 +12,7 @@ import { ROUTES ,ROUTES_PATH} from "../constants/routes.js";
 import mockStore from "../__mocks__/store"
 import router from "../app/Router.js";
 
+
 //NewBillUI
 describe("Given I am connected as an employee", () => {
   describe("When I click on nouvelle note de frais", () => {
@@ -48,7 +49,7 @@ describe("Given I am connected as an employee", () => {
       window.localStorage.setItem('user', JSON.stringify({
         type: 'Employee'
       }))
-      
+
       const newBill = new NewBill({document, onNavigate, mockStore, localStorage: window.localStorage})
       const Inputfile= screen.getByTestId("file")
       const handleChangeFile = jest.fn(newBill.handleChangeFile)
@@ -57,6 +58,8 @@ describe("Given I am connected as an employee", () => {
       expect(handleChangeFile).toHaveBeenCalled()
       //to-do write assertion
     })
+   
+   
     //test updatebill POST
     test("Then, click on envoyer", async ()=>
     {
@@ -87,45 +90,11 @@ describe("Given I am connected as an employee", () => {
       document.querySelector('[data-testid="pct"]').value = "70"
       document.querySelector('[data-testid="commentary"]').value = "No comment"
       document.querySelector('[data-testid="file"]').files[0] = file
-      
       await fireEvent.submit(buttonEnvoyer)
       expect(window.alert).toHaveBeenCalled();
       await waitFor(() => screen.getByText("Mes notes de frais"))
       expect(screen.getByText("Mes notes de frais")).toBeTruthy();
     })
-    test("Then, click on envoyer with valid = false", async ()=>
-    {
-      const onNavigate = (pathname) => {
-        document.body.innerHTML = ROUTES({ pathname })
-      }
-      Object.defineProperty(window, 'localStorage', { value: localStorageMock })
-      window.localStorage.setItem('user', JSON.stringify({ type: 'Employee' }))
-      const root = document.createElement("div")
-      root.setAttribute("id", "root")
-      document.body.append(root)
-      router()
-      $.fn.modal = jest.fn();
-      window.alert = jest.fn();
-      const newBill = new NewBill({document, onNavigate, mockStore, localStorage: window.localStorage, valid:false})
-      const inputFile = document.querySelector('[data-testid="file"]');
-      const handleChangeFile = jest.fn(newBill.handleChangeFile)
-      const buttonEnvoyer = document.querySelector('[data-testid="form-new-bill"]')
-      const fakeEvt = {preventDefault: jest.fn(), target:document.querySelector('[data-testid="form-new-bill"]')}
-      //const envoyer = jest.fn(() => newBill.handleSubmit(fakeEvt));
-      //buttonEnvoyer.addEventListener("click", envoyer)
-      document.querySelector('[data-testid="expense-type"]').value = "IT et électronique"
-      document.querySelector('[data-testid="expense-name"]').value = "Vol Paris Londres"
-      document.querySelector('[data-testid="datepicker"]').value = "2022-09-30"
-      document.querySelector('[data-testid="amount"]').value = "4"
-      document.querySelector('[data-testid="vat"]').value = "70"
-      document.querySelector('[data-testid="pct"]').value = "70"
-      document.querySelector('[data-testid="commentary"]').value = "No comment"
-      
-      await fireEvent.submit(buttonEnvoyer)
-      expect(window.alert).toHaveBeenCalled();
-      await waitFor(() => screen.getByText("Envoyer une note de frais"))
-      expect(screen.getByText("Envoyer une note de frais")).toBeTruthy();
-    })
+    
   })
 })
-

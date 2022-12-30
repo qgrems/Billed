@@ -68,7 +68,6 @@ describe("Given I am a user connected as employee", () => {
       await waitFor(() => screen.getByText("Mes notes de frais"))
       const contentPending  = await screen.getByText("Mes notes de frais")
       expect(contentPending).toBeTruthy()
-
     })
     describe("When an error occurs on API", () => {
       beforeEach(() => {
